@@ -20,5 +20,35 @@ class Node
 end
 
 class MyQueue
-  # your code goes here
+  attr_accessor :head, :tail
+
+  def initialize(element = nil)
+    node = Node.new(element) if element
+    @head = node
+    @tail = node
+  end
+
+  def push(element)
+    if empty?
+      initialize(element)
+    else
+      raise "Nil not allowed" if element.nil?
+      node = Node.new(element)
+      @tail.next_node = node
+      @tail = node
+    end
+  end
+
+  def pop
+    node = @head
+    @head = node.next_node
+    node
+  end
+
+  def empty?
+    @head.nil?
+  end
+
 end
+
+q = MyQueue.new()

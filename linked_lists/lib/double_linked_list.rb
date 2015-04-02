@@ -13,7 +13,68 @@ class Node
 end
 
 class DoubleLinkedList
-  # your code goes here
+  attr_reader :head, :tail, :length
+
+  def initialize(value = nil)
+    @head = nil
+    @tail = nil
+    @length = 0
+    if value
+      @head = Node.new(value)
+      @tail = @head
+      @length += 1
+    end
+  end
+
+  def prepend(value)
+    node = Node.new(value)
+    if empty?
+      @head = node
+      @tail = node
+    else
+      node.next_node = @head
+      @head.prev_node = node
+      @head = node
+    end
+    @length += 1
+  end
+
+  def append(value)
+    node = Node.new(value)
+    if empty?
+      @head = node
+      @tail = node
+    else
+      @tail.next_node = node
+      node.prev_node = @tail
+      @tail = node
+    end
+    @length += 1
+  end
+
+  def empty?
+    !@head
+  end
+
+  def find(value)
+    current = @head
+    while current
+      return current if current.value == value
+      current = current.next_node
+    end
+  end
+
+  def insert_after(prev, new_node)
+    if prev.next_node
+      prev.next_node.prev_node = new_node
+      new_node.next_node = prev.next_node
+    else
+      @tail = new_node
+    end
+
+    prev.next_node = new_node
+    new_node.prev_node = prev
+  end
 end
 
 class EmptyListError < StandardError

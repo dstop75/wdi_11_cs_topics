@@ -14,7 +14,83 @@ class Node
 end
 
 class SingleLinkedList
-  # your code goes here
+  attr_reader :head, :last, :length
+
+  def initialize(num)
+    @head = Node.new(num)
+    @last = @head
+    @length = 1
+  end
+
+  def prepend(num)
+    node = Node.new(num)
+    node.next_node = @head
+    @head = node
+    @length += 1
+  end
+
+  def append(num)
+    node = Node.new(num)
+    @last.next_node = node
+    @last = node
+    @length += 1
+  end
+
+  def shift
+    node = @head
+    @head = @head.next_node
+    @length -= 1
+    node
+  end
+
+  def find(search_value)
+    current = @head
+    while current.next_node
+      if current.value == search_value
+        return current
+      end
+      current = current.next_node
+    end
+    return nil
+  end
+
+  # def length
+  #   length = 0
+  #   node = @head
+  #   while node.next_node
+  #     length += 1
+  #   end
+  # end
+
+  def reverse
+    reversed = SingleLinkedList.new(@head.value)
+    node = @head
+    while node.next_node
+      node = node.next_node
+      reversed.prepend(node.value)
+    end
+    reversed
+  end
+
+  def reverse!
+    last = nil
+    node = @head
+    while node.next_node
+      prior = node.next_node
+      node.next_node = last
+      last = node
+      node = prior
+    end
+    node.next_node = last
+    @head = node
+    self
+  end
+
+  def insert_after(node, new_node)
+    new_node.next_node = node.next_node
+    node.next_node = new_node
+  end
+
 end
 
 =begin
